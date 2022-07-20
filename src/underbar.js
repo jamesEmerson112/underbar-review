@@ -63,9 +63,6 @@
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
   _.indexOf = function(array, target) {
-    // TIP: Here's an example of a function that needs to iterate, which we've
-    // implemented for you. Instead of using a standard `for` loop, though,
-    // it uses the iteration helper `each`, which you will need to write.
     var result = -1;
 
     _.each(array, function(item, index) {
@@ -92,20 +89,88 @@
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
-    // TIP: see if you can re-use _.filter() here, without simply
-    // copying code in and modifying it
+    var resultArr = [];
+    var filterArr = _.filter(collection, test);
+    var isNotInFilterArray = function(item) {
+      return _.indexOf(filterArr, item) === -1;
+    };
+
+    // create own test to see if our elements
+    resultArr = _.filter(collection, isNotInFilterArray);
+
+    // console.log(test.constructor);
+
+    return resultArr;
   };
 
   // Produce a duplicate-free version of the array.
+  // get rid of any elements that have duplicates
+
   _.uniq = function(array, isSorted, iterator) {
+    var resultArr = [];
+    // resultArr = _.filter(array, function(item) {
+    //   console.log(item);
+    //   // console.log(_.indexOf(array, item));
+    //   if (index === _.indexOf(array, item)) {
+    //     console.log('test');
+    //   }
+    //   return index === _.indexOf(array, item);
+    // });
+    // console.log(resultArr);
+
+    // filter out any element that is repeated
+    if (iterator === undefined) {
+      var usedIdxArr = [];
+      if (isSorted) {
+        //do something else
+      }
+      resultArr = _.filter(array, function(item) {
+        if (array.indexOf(item) === array.lastIndexOf(item)) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    }
+
+    console.log('array ' + array);
+    console.log (resultArr);
+    return resultArr;
   };
+  //pseudo
+  //filter the elements in the array that ele's index !== _.indexOf(ele)
 
 
+  // 1. check the test case
+  // 2 . implement the function
   // Return the results of applying an iterator to each element.
+
+  // _.each = function(collection, iterator) {
+  //   if (collection.constructor === Array) {
+  //     for (var idx = 0; idx < collection.length; idx++) {
+  //       iterator(collection[idx], idx, collection);
+  //     }
+  //   } else if (collection.constructor === Object) {
+  //     for (var key in collection) {
+  //       if (collection.hasOwnProperty(key)) {
+  //         iterator(collection[key], key, collection);
+  //       }
+  //     }
+  //   }
+  // };
+
   _.map = function(collection, iterator) {
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    var resultArr = [];
+
+    _.each(collection, function(item) {
+      var temp = iterator(item);
+      resultArr.push(temp);
+    });
+
+    return resultArr;
   };
 
   /*

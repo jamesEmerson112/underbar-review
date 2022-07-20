@@ -328,19 +328,19 @@
       it('should return all unique values contained in an unsorted array', function() {
         var numbers = [1, 2, 1, 3, 1, 4];
 
-        expect(_.uniq(numbers)).to.eql([1, 2, 3, 4]);
+        expect(_.uniq(numbers, false, undefined)).to.eql([1, 2, 3, 4]);
       });
 
       it('should handle iterators that work with a sorted array', function() {
+        // perhaps 1 here means by it is unique?
         var iterator = function(value) { return value === 1; };
         var numbers = [1, 2, 2, 3, 4, 4];
-
-        expect(_.uniq(FILL_ME_IN)).to.eql([1, 2]);
+        expect(_.uniq(numbers, true, iterator)).to.eql([1, 2]);
       });
 
       it('should produce a brand new array instead of modifying the input array', function() {
         var numbers = [1, 2, 1, 3, 1, 4];
-        var uniqueNumbers = _.uniq(numbers);
+        var uniqueNumbers = _.uniq(numbers, false, undefined);
 
         expect(uniqueNumbers).to.not.equal(numbers);
       });
@@ -379,7 +379,9 @@
       });
 
       it('should apply a function to every value in an array', function() {
-        var multiplyByTwo = FILL_ME_IN;
+        var multiplyByTwo = function(item) {
+          return item * 2;
+        };
 
         expect(_.map([1, 2, 3], multiplyByTwo)).to.eql([2, 4, 6]);
       });
@@ -402,7 +404,7 @@
           { name: 'curly', age: 50 }
         ];
 
-        expect(_.pluck(people, 'name')).to.FILL_ME_IN(['moe', 'curly']);
+        expect(_.pluck(people, 'name')).to.eql(['moe', 'curly']);
       });
 
       it('should not modify the original array', function() {
@@ -412,8 +414,10 @@
         ];
 
         _.pluck(people, 'name');
-
-        expect(people).to.FILL_ME_IN([{ name: 'moe', age: 30 }, { name: 'curly', age: 50 }]);
+        // [{ name: 'moe', age: 30 }, { name: 'curly', age: 50 }]
+        // is it considered as the 'original array' just because it
+        // has the SAME values
+        expect(people).to.eql([{ name: 'moe', age: 30 }, { name: 'curly', age: 50 }]);
       });
     });
 
